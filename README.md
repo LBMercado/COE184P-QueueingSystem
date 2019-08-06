@@ -1,2 +1,2 @@
 # COE184P-QueueingSystem
-Real-time Queuing System using Apache Cordova and Windows Communications Foundation (WCF)
+Description: Real-time Queuing System using Apache Cordova and Windows Communications Foundation (WCF). School Project for Microsoft .Net 4
