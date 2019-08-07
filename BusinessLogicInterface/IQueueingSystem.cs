@@ -9,44 +9,56 @@ namespace QueueingSystem.BusinessLogic
     {
         List<Lane> GetAllQueueLanes();
 
+        List<Lane> GetInactiveQueueLanes();
+
+        List<Lane> GetActiveQueueLanes();
+
         Lane GetQueueLane(int queueLaneNumber);
 
-        Lane GetQueueLane(string queueLaneName);
-
-        Lane GetQueueLaneOfTicket(int queueTicketNumber);
+        Lane GetQueueLaneOfTicket(string queueTicketID);
 
         int GetLaneCount();
 
-        bool IsFullQueueAtLane(string queueLaneNumber);
+        int GetActiveLaneCount();
 
-        bool IsEmptyQueueAtLane(string queueLaneNumber);
+        int GetInactiveLaneCount();
 
-        void SetLaneQueueCapacity(string queueLaneNumber, int queueCapacity);
+        bool IsFullQueueAtLane(int queueLaneNumber);
 
-        void SetLaneQueueTolerance(TimeSpan timeTolerance);
+        bool IsEmptyQueueAtLane(int queueLaneNumber);
+
+        int GetQueueCountAtLane(int queueLaneNumber);
+
+        int GetQueueCapacityOfLane(int queueLaneNumber);
+
+        void SetLaneQueueCapacity(int queueLaneNumber, int queueCapacity);
+
+        void SetLaneQueueTolerance(int queueLaneNumber, TimeSpan timeTolerance);
 
         bool SetQueueAttendantOfLane(int queueLaneNumber, QueueAttendant queueAttendant);
 
         QueueAttendant GetQueueAttendantOfLane(int queueLaneNumber);
 
-        bool IsGuest(object user);
+        bool IsGuest(object account);
 
-        object GetCurrentlyServingInLane(int queueLaneNumber);
+        bool IsUser(object account);
 
-        object GetNextToBeServedInLane(int queueLaneNumber);
+        object GetFrontQueuedInLane(int queueLaneNumber);
 
-        object[] GetListOfQueuedInLane(int queueLaneNumber);
+        List<object> GetListOfQueuedInLane(int queueLaneNumber);
+
+        object GetLastQueuedInLane(int queueLaneNumber);
 
         bool EnqueueLane(int queueLaneNumber, QueueTicket newQueueTicket);
 
         QueueTicket DequeueLane(int queueLaneNumber);
 
-        bool AddNewQueueLane(string laneName);
+        QueueTicket PeekLane(int queueLaneNumber);
+
+        bool AddNewQueueLane(Lane newQueueLane);
 
         bool EditQueueLane(Lane editedQueueLane);
 
         bool DeleteQueueLane(int queueLaneNumber);
-
-        int GetLatestGuessNumber();
     }
 }

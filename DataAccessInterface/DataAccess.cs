@@ -898,7 +898,7 @@ namespace QueueingSystem.DataAccess
         }
 
         public bool EditQueueTicketStatusWithTicketID(
-            int queueTicketID,
+            string queueTicketID,
             QueueStatus queueStatus,
             Dictionary<QueueStatus, int> queueStatusMapper
             )
@@ -2610,7 +2610,7 @@ namespace QueueingSystem.DataAccess
             }
 
             string procName = "GetGuestNumberSeed";
-            int guestNumberSeed = 0;
+            int guestNumberSeed = -1;
 
             using (SqlCommand cmd = connection.CreateCommand())
             {
@@ -2636,6 +2636,50 @@ namespace QueueingSystem.DataAccess
             }
 
             return guestNumberSeed;
+        }
+
+        public long GetAccountNumberWithEmailPassword(string email, string password)
+        {
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            string procName = "GetAccountNumberWithEmailPassword";
+            long retAccountNumber = 0;
+
+            using (SqlCommand cmd = connection.CreateCommand())
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = procName;
+
+                cmd.Parameters.Add("Email", SqlDbType.VarChar, 50).Value = email;
+                cmd.Parameters.Add("Password", SqlDbType.VarChar, 128).Value = password;
+
+                //start of query
+                try
+                {
+                    object retObject = cmd.ExecuteScalar();
+
+                    //make sure that it exists
+                    if (retObject != null)
+                    {
+                        retAccountNumber = (long)retObject;
+                    }
+                    else
+                    {
+                        retAccountNumber = -1;
+                    }
+                }
+                catch (SqlException exc)
+                {
+                    Console.WriteLine("SQL Exception encountered: " + exc.Message);
+                }
+                //end of query
+                connection.Close();
+            }
+
+            return retAccountNumber;
         }
 
         private static string SafeGetString(SqlDataReader reader, int colIndex)

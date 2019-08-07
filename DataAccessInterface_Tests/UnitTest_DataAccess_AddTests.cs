@@ -87,7 +87,7 @@ namespace DataAccessInterface_Tests
             Assert.IsTrue(
                 dal.AddGuest()
                 );
-            Guest guest = dal.GetGuestWithAccountNumber(
+            Guest guest = dal.GetGuestWithGuestNumber(
                 dal.GetGuestNumberSeed());
             Assert.IsNotNull(guest);
         }
