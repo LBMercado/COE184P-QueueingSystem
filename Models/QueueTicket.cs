@@ -30,6 +30,17 @@ namespace QueueingSystem.Models
             Status = QueueStatus.WAITING;
         }
 
+        public QueueTicket(QueueTicket otherQT)
+        {
+            QueueID = otherQT.QueueID;
+            QueueNumber = otherQT.QueueNumber;
+            QueueLane = new Lane(otherQT.QueueLane);
+            PriorityNumber = otherQT.PriorityNumber;
+            this.owner = otherQT.owner;
+            QueueDateTime = otherQT.QueueDateTime;
+            Status = otherQT.Status;
+        }
+
         public void SetOwner(User owner)
         {
             this.owner = owner;

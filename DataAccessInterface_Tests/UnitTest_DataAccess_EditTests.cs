@@ -4,6 +4,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QueueingSystem.Models;
 using QueueingSystem.DataAccess;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace DataAccessInterface_Tests
 {
@@ -42,36 +44,52 @@ namespace DataAccessInterface_Tests
                 dal.AddUser(testUser1)
                 );
 
-            testUser1 = dal.GetUserWithEmail(
+            var retUser1 = dal.GetUserWithEmail(
                 testUser1.GetEmail()
                 );
+            var editedUser1 = new User(retUser1);
 
             Assert.IsNotNull(
-                testUser1
+                retUser1
                 );
 
-            testUser1.SetFullName("B", "BB", "BBB");
-            testUser1.SetEmail("B@email.com");
-            testUser1.SetContactNumber("ABCDE123456");
-            testUser1.SetPassword("BBB");
-
-            string email = "B@email.com";
+            editedUser1.SetFullName("B", "BB", "BBB");
+            editedUser1.SetEmail("B@email.com");
+            editedUser1.SetContactNumber("ABCDE123456");
+            editedUser1.SetPassword("BBB");
 
             Assert.IsTrue(
-                dal.EditAccountWithAccountNumber(testUser1)
+                dal.EditAccountWithAccountNumber(editedUser1)
                 );
 
-            testUser1 = dal.GetUserWithEmail(
-                testUser1.GetEmail()
+            retUser1 = dal.GetUserWithEmail(
+                editedUser1.GetEmail()
                 );
 
             Assert.IsNotNull(
-                testUser1
+                retUser1
+                );
+
+            //make sure all details are edited
+            Assert.AreEqual(
+                editedUser1.GetEmail(),
+                retUser1.GetEmail()
                 );
 
             Assert.AreEqual(
-                email,
-                testUser1.GetEmail()
+                editedUser1.GetFullName(),
+                retUser1.GetFullName()
+                );
+
+            Assert.AreEqual(
+                editedUser1.GetContactNumber(),
+                retUser1.GetContactNumber()
+                );
+
+            //make sure passwords are not equal anymore
+            Assert.AreNotEqual(
+                editedUser1.GetPassword(),
+                testUser1.GetPassword()
                 );
         }
     }

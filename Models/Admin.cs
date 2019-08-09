@@ -6,6 +6,22 @@ namespace QueueingSystem.Models
 {
     public class Admin : Account
     {
+        public Admin() { }
+
+        public Admin(Admin admin)
+            : base(
+                admin.AccountNumber,
+                admin.Email,
+                admin.Password,
+                admin.ContactNumber,
+                admin.FirstName,
+                admin.MiddleName,
+                admin.LastName
+                  )
+        {
+            AdminID = admin.AdminID;
+        }
+
         public string AdminID { get; set; }
         public override void SetFullName(string firstName, string middleName, string lastName)
         {

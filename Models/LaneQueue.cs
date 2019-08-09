@@ -29,6 +29,14 @@ namespace QueueingSystem.Models
             Tolerance = LANE_DEFAULT_TOLERANCE;
         }
 
+        public LaneQueue(LaneQueue otherLQ)
+        {
+            LaneQueueID = otherLQ.LaneQueueID;
+            QueueList = new List<QueueTicket>(otherLQ.QueueList);
+            Attendant = new QueueAttendant(otherLQ.Attendant);
+            QueueLane = new Lane(otherLQ.QueueLane);
+        }
+
         /// <summary>
         /// Sets the queue list, queue tickets must be of the same lane
         /// </summary>

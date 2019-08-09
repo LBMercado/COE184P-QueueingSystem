@@ -417,9 +417,9 @@ namespace DataAccessInterface_Tests
                 letter++;
 
                 testUser1.SetFullName(
-                    new string(letter, i),
-                    new string(letter, i + 1),
-                    new string(letter, i + 2));
+                    new string(letter, 1),
+                    new string(letter, 2),
+                    new string(letter, 3));
                 testUser1.SetEmail(letter + "@email.com");
                 testUser1.SetContactNumber("12345678901");
                 testUser1.SetPassword("password");
@@ -537,9 +537,9 @@ namespace DataAccessInterface_Tests
                 letter++;
 
                 testUser1.SetFullName(
-                    new string(letter, i),
-                    new string(letter, i + 1),
-                    new string(letter, i + 2));
+                    new string(letter, 1),
+                    new string(letter, 2),
+                    new string(letter, 3));
                 testUser1.SetEmail(letter + "@email.com");
                 testUser1.SetContactNumber("12345678901");
                 testUser1.SetPassword("password");
@@ -675,9 +675,9 @@ namespace DataAccessInterface_Tests
                 letter++;
 
                 testUser1.SetFullName(
-                    new string(letter, i),
-                    new string(letter, i + 1),
-                    new string(letter, i + 2));
+                    new string(letter, 1),
+                    new string(letter, 2),
+                    new string(letter, 3));
                 testUser1.SetEmail(letter + "@email.com");
                 testUser1.SetContactNumber("12345678901");
                 testUser1.SetPassword("password");

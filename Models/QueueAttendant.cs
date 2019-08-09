@@ -6,6 +6,29 @@ namespace QueueingSystem.Models
 {
     public class QueueAttendant : Account
     {
+        public QueueAttendant() { }
+        public QueueAttendant(QueueAttendant queueAttendant)
+                : base(
+                    queueAttendant.AccountNumber,
+                    queueAttendant.Email,
+                    queueAttendant.Password,
+                    queueAttendant.ContactNumber,
+                    queueAttendant.FirstName,
+                    queueAttendant.MiddleName,
+                    queueAttendant.LastName
+                      )
+        {
+            QueueAttendantID = queueAttendant.QueueAttendantID;
+
+            if (queueAttendant.DesignatedLane == null)
+            {
+                DesignatedLane = new Lane();
+            }
+            else
+            {
+                DesignatedLane = new Lane(queueAttendant.DesignatedLane);
+            }
+        }
         public string QueueAttendantID { get; set; }
         public Lane DesignatedLane { get; set; }
         public override void SetFullName(string firstName, string middleName, string lastName)

@@ -39,7 +39,11 @@ namespace BusinessLogicInterface_Tests
 
             Assert.IsTrue(
                 login.RegisterAsUser(testUser1)
-                ); 
+                );
+
+            //make sure that the original object has not been modified
+            Assert.AreEqual("AAA",
+                testUser1.GetPassword());
         }
 
         [TestMethod]
@@ -55,6 +59,10 @@ namespace BusinessLogicInterface_Tests
             Assert.IsTrue(
                 login.RegisterAsUser(testUser1)
                 );
+
+            //make sure that the original object has not been modified
+            Assert.AreEqual("AAA",
+                testUser1.GetPassword());
 
             Assert.IsNotNull(
                 login.LoginAsUser(testUser1.GetEmail(),

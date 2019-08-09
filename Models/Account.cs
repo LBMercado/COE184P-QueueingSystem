@@ -6,6 +6,27 @@ namespace QueueingSystem.Models
 {
     public abstract class Account
     {
+        public Account() { }
+
+        public Account(
+            long accountNumber,
+            string email,
+            string password,
+            string contactNumber,
+            string firstName,
+            string middleName,
+            string lastName
+            )
+        {
+            AccountNumber = accountNumber;
+            Email = email;
+            Password = password;
+            ContactNumber = contactNumber;
+            FirstName = firstName;
+            MiddleName = middleName;
+            LastName = lastName;
+        }
+
         public long AccountNumber { get; set; }
 
         protected string Email { get; set; }

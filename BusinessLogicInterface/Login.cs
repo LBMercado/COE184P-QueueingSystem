@@ -68,8 +68,9 @@ namespace QueueingSystem.BusinessLogic
         /// </summary>
         /// <param name="newAdmin"></param>
         /// <returns></returns>
-        public bool RegisterAsAdmin(Admin newAdmin)
+        public bool RegisterAsAdmin(Admin admin)
         {
+            var newAdmin = new Admin(admin);
             var hashedPassword = Hasher.HashSHA512(newAdmin.GetPassword()).Digest;
             newAdmin.SetPassword(hashedPassword);
 
@@ -94,8 +95,9 @@ namespace QueueingSystem.BusinessLogic
         /// </summary>
         /// <param name="newQueueAttendant"></param>
         /// <returns></returns>
-        public bool RegisterAsQueueAttendant(QueueAttendant newQueueAttendant)
+        public bool RegisterAsQueueAttendant(QueueAttendant queueAttendant)
         {
+            var newQueueAttendant = new QueueAttendant(queueAttendant);
             var hashedPassword = Hasher.HashSHA512(newQueueAttendant.GetPassword()).Digest;
             newQueueAttendant.SetPassword(hashedPassword);
 
@@ -107,8 +109,9 @@ namespace QueueingSystem.BusinessLogic
         /// </summary>
         /// <param name="newUser"></param>
         /// <returns></returns>
-        public bool RegisterAsUser(User newUser)
+        public bool RegisterAsUser(User user)
         {
+            var newUser = new User(user);
             var hashedPassword = Hasher.HashSHA512(newUser.GetPassword()).Digest;
             newUser.SetPassword(hashedPassword);
 

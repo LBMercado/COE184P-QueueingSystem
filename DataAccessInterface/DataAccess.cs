@@ -41,15 +41,12 @@ namespace QueueingSystem.DataAccess
 
         public void SetConnectionString(string connectionString)
         {
+            //check if connection has been set already
             //close current connection if it is open
-            if (connection.State == ConnectionState.Open)
+            if (connection != null &&
+                connection.State == ConnectionState.Open)
             {
                 connection.Close();
-                connection.Dispose();
-            }
-            else
-            {
-                connection.Dispose();
             }
 
             ConnectionString = connectionString;
@@ -281,8 +278,8 @@ namespace QueueingSystem.DataAccess
                 }
 
                 //check if lane is unset
-                if (newQueueAttendant.DesignatedLane.LaneID == 0 &&
-                    newQueueAttendant.DesignatedLane.LaneNumber == 0
+                if (newQueueAttendant.DesignatedLane == null ||
+                    newQueueAttendant.DesignatedLane.LaneID == 0
                     )
                 {
                     cmd.Parameters.Add("LaneID", SqlDbType.Int).Value = DBNull.Value;
@@ -776,6 +773,11 @@ namespace QueueingSystem.DataAccess
 
         public bool EditDesignatedLaneOfQueueAttendant(string queueAttendantID, int laneID)
         {
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
             string procName = "EditDesignatedLaneOfQueueAttendant";
             bool isSuccess = false;
 
@@ -807,6 +809,11 @@ namespace QueueingSystem.DataAccess
             LaneQueue editedLaneQueue
             )
         {
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
             string procName = "EditLaneQueue";
             bool isSuccess = false;
 
@@ -838,6 +845,11 @@ namespace QueueingSystem.DataAccess
 
         public bool EditLaneWithLaneID(Lane editedLane)
         {
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
             string procName = "EditLaneWithLaneID";
             bool isSuccess = false;
 
@@ -869,6 +881,11 @@ namespace QueueingSystem.DataAccess
 
         public bool EditLaneWithLaneNumber(Lane editedLane)
         {
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
             string procName = "EditLaneWithLaneNumber";
             bool isSuccess = false;
 
@@ -903,6 +920,11 @@ namespace QueueingSystem.DataAccess
             Dictionary<QueueStatus, int> queueStatusMapper
             )
         {
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
             string procName = "EditQueueTicketStatusWithTicketID";
             bool isSuccess = false;
 
@@ -936,6 +958,11 @@ namespace QueueingSystem.DataAccess
             Dictionary<QueueStatus, int> queueStatusMapper
             )
         {
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
             string procName = "EditQueueTicketStatusWithTicketNumber";
             bool isSuccess = false;
 
@@ -968,6 +995,11 @@ namespace QueueingSystem.DataAccess
             Dictionary<QueueStatus, int> queueStatusMapper
             )
         {
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
             string procName = "EditQueueTicketWithQueueNumber";
             bool isSuccess = false;
 
@@ -1018,6 +1050,11 @@ namespace QueueingSystem.DataAccess
             Dictionary<QueueStatus, int> queueStatusMapper
             )
         {
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
             string procName = "EditQueueTicketWithQueueTicketID";
             bool isSuccess = false;
 
@@ -1437,7 +1474,7 @@ namespace QueueingSystem.DataAccess
                 connection.Open();
             }
 
-            string procName = "GetLaneWithLaneID";
+            string procName = "GetLanes";
             List<Lane> retLaneList = new List<Lane>();
 
             using (SqlCommand cmd = connection.CreateCommand())
@@ -1450,7 +1487,7 @@ namespace QueueingSystem.DataAccess
                 {
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        if (reader.Read())
+                        while (reader.Read())
                         {
                             var retLane = new Lane();
 
@@ -1608,7 +1645,7 @@ namespace QueueingSystem.DataAccess
                             retQueueAttendant.DesignatedLane.LaneID = SafeGetInt32(reader, reader.GetOrdinal("LaneID"));
 
                             //lane can be left to null, must check for it
-                            if (retQueueAttendant.DesignatedLane.LaneID != 0)
+                            if (retQueueAttendant.DesignatedLane.LaneID != -1)
                             {
                                 //lane is set
                                 retQueueAttendant.DesignatedLane.LaneNumber = reader.GetInt32(reader.GetOrdinal("LaneNumber"));
@@ -1682,7 +1719,7 @@ namespace QueueingSystem.DataAccess
                             retQueueAttendant.DesignatedLane.LaneID = SafeGetInt32(reader, reader.GetOrdinal("LaneID"));
 
                             //lane can be left to null, must check for it
-                            if (retQueueAttendant.DesignatedLane.LaneID != 0)
+                            if (retQueueAttendant.DesignatedLane.LaneID != -1)
                             {
                                 //lane is set
                                 retQueueAttendant.DesignatedLane.LaneNumber = reader.GetInt32(reader.GetOrdinal("LaneNumber"));
@@ -1754,7 +1791,7 @@ namespace QueueingSystem.DataAccess
                             retQueueAttendant.DesignatedLane.LaneID = SafeGetInt32(reader, reader.GetOrdinal("LaneID"));
 
                             //lane can be left to null, must check for it
-                            if (retQueueAttendant.DesignatedLane.LaneID != 0)
+                            if (retQueueAttendant.DesignatedLane.LaneID != -1)
                             {
                                 //lane is set
                                 retQueueAttendant.DesignatedLane.LaneNumber = reader.GetInt32(reader.GetOrdinal("LaneNumber"));
@@ -1826,7 +1863,7 @@ namespace QueueingSystem.DataAccess
                             retQueueAttendant.DesignatedLane.LaneID = SafeGetInt32(reader, reader.GetOrdinal("LaneID"));
 
                             //lane can be left to null, must check for it
-                            if (retQueueAttendant.DesignatedLane.LaneID != 0)
+                            if (retQueueAttendant.DesignatedLane.LaneID != -1)
                             {
                                 //lane is set
                                 retQueueAttendant.DesignatedLane.LaneNumber = reader.GetInt32(reader.GetOrdinal("LaneNumber"));
@@ -1893,8 +1930,12 @@ namespace QueueingSystem.DataAccess
                                 );
 
                             //must determine account type
+                            //going to do a second read, initialize a new data access object
+                            var dataAccess2 = new DataAccess(this.ConnectionString);
+
+                            //must determine account type
                             long qTAccountNumber = reader.GetInt64(reader.GetOrdinal("AccountNumber"));
-                            object qTOwner = GetUserWithAccountNumber(qTAccountNumber);
+                            object qTOwner = dataAccess2.GetUserWithAccountNumber(qTAccountNumber);
                             if (qTOwner == null)
                             {
                                 qTOwner = GetGuestWithAccountNumber(qTAccountNumber);
@@ -1979,8 +2020,12 @@ namespace QueueingSystem.DataAccess
                                 );
 
                             //must determine account type
+                            //going to do a second read, initialize a new data access object
+                            var dataAccess2 = new DataAccess(this.ConnectionString);
+
+                            //must determine account type
                             long qTAccountNumber = reader.GetInt64(reader.GetOrdinal("AccountNumber"));
-                            object qTOwner = GetUserWithAccountNumber(qTAccountNumber);
+                            object qTOwner = dataAccess2.GetUserWithAccountNumber(qTAccountNumber);
                             if (qTOwner == null)
                             {
                                 qTOwner = GetGuestWithAccountNumber(qTAccountNumber);
@@ -2062,7 +2107,10 @@ namespace QueueingSystem.DataAccess
 
                             //must determine account type
                             long qTAccountNumber = reader.GetInt64(reader.GetOrdinal("AccountNumber"));
-                            object qTOwner = GetUserWithAccountNumber(qTAccountNumber);
+
+                            //create a new data access object
+                            var dataAccess2 = new DataAccess(ConnectionString);
+                            object qTOwner = dataAccess2.GetUserWithAccountNumber(qTAccountNumber);
                             if (qTOwner == null)
                             {
                                 qTOwner = GetGuestWithAccountNumber(qTAccountNumber);
@@ -2148,8 +2196,12 @@ namespace QueueingSystem.DataAccess
                                 );
 
                             //must determine account type
+                            //going to do a second read, initialize a new data access object
+                            var dataAccess2 = new DataAccess(this.ConnectionString);
+
+                            //must determine account type
                             long qTAccountNumber = reader.GetInt64(reader.GetOrdinal("AccountNumber"));
-                            object qTOwner = GetUserWithAccountNumber(qTAccountNumber);
+                            object qTOwner = dataAccess2.GetUserWithAccountNumber(qTAccountNumber);
                             if (qTOwner == null)
                             {
                                 qTOwner = GetGuestWithAccountNumber(qTAccountNumber);
@@ -2325,7 +2377,10 @@ namespace QueueingSystem.DataAccess
 
                             //must determine account type
                             long qTAccountNumber = reader.GetInt64(reader.GetOrdinal("AccountNumber"));
-                            object qTOwner = GetUserWithAccountNumber(qTAccountNumber);
+
+                            //create a new data access object
+                            var dataAccess2 = new DataAccess(ConnectionString);
+                            object qTOwner = dataAccess2.GetUserWithAccountNumber(qTAccountNumber);
                             if (qTOwner == null)
                             {
                                 qTOwner = GetGuestWithAccountNumber(qTAccountNumber);

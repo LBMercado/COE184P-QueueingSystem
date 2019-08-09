@@ -13,5 +13,15 @@ namespace QueueingSystem.Models
         public int LaneNumber { get; set; }
 
         public int Capacity { get; set; }
+
+        public Lane() { }
+
+        public Lane(Lane otherLane)
+        {
+            LaneID = otherLane.LaneID;
+            LaneName = otherLane.LaneName;
+            LaneNumber = otherLane.LaneNumber;
+            Capacity = otherLane.Capacity;
+        }
     }
 }

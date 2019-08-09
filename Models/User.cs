@@ -6,6 +6,22 @@ namespace QueueingSystem.Models
 {
     public class User : Account
     {
+        public User() { }
+
+        public User(User user)
+            : base(
+                user.AccountNumber,
+                user.Email,
+                user.Password,
+                user.ContactNumber,
+                user.FirstName,
+                user.MiddleName,
+                user.LastName
+                  )
+        {
+            UserID = user.UserID;
+        }
+
         public string UserID { get; set; }
 
         public override void SetFullName(string firstName, string middleName, string lastName)

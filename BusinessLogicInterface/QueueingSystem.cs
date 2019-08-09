@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using QueueingSystem.Models;
 using QueueingSystem.DataAccess;
+using System.Linq;
 
 namespace QueueingSystem.BusinessLogic
 {
@@ -251,6 +252,11 @@ namespace QueueingSystem.BusinessLogic
             }
         }
 
+        public bool IsLaneNumberUsed(int queueLaneNumber)
+        {
+            return laneQueues.ContainsKey(queueLaneNumber);
+        }
+
         /// <summary>
         /// Gets the number of queued persons at the specified lane given the lane number.
         /// </summary>
@@ -489,10 +495,49 @@ namespace QueueingSystem.BusinessLogic
                 {
                     if (laneQueue.QueueList.Count != laneQueue.GetQueueCapacity())
                     {
-                        laneQueue.EnqueueTicket(newQueueTicket);
+                        //reflect changes in database
+                        bool isSuccess = dataAccessLogic.AddQueueTicket(
+                            newQueueTicket,
+                            queueStatusMapper
+                            );
 
-                        dataAccessLogic.AddQueueTicket(newQueueTicket,
-                            queueStatusMapper);
+                        //check if account is user or guest
+                        if (newQueueTicket.owner is User user)
+                        {
+                            newQueueTicket = dataAccessLogic
+                            .GetQueueTicketsOfWithStatusAndLaneID(
+                            user.AccountNumber,
+                            newQueueTicket.QueueLane.LaneID,
+                            newQueueTicket.Status,
+                            queueStatusMapper
+                            )
+                            .DefaultIfEmpty(null)
+                            .FirstOrDefault();
+                        }
+                        else if (newQueueTicket.owner is Guest guest)
+                        {
+                            newQueueTicket = dataAccessLogic
+                            .GetQueueTicketsOfWithStatusAndLaneID(
+                            guest.AccountNumber,
+                            newQueueTicket.QueueLane.LaneID,
+                            newQueueTicket.Status,
+                            queueStatusMapper
+                            )
+                            .DefaultIfEmpty(null)
+                            .FirstOrDefault();
+                        }
+                        else
+                        {
+                            throw new ArgumentException("Unexpected account type for queue ticket, it is not a guest or user.");
+                        }
+
+                        if (!isSuccess ||
+                            newQueueTicket == null)
+                        {
+                            throw new Exception("Failed to add or get new queue ticket.");
+                        }
+
+                        laneQueue.EnqueueTicket(newQueueTicket);
 
                         return true;
                     }
@@ -675,6 +720,96 @@ namespace QueueingSystem.BusinessLogic
             else
             {
                 //quite possibly a conflicting lane number hard coded into database
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Allows queues to be formed at the specified lane, there must be an attendant available
+        /// </summary>
+        /// <param name="queueLaneNumber"></param>
+        /// <param name="attendant"></param>
+        /// <param name="tolerance">Maximum amount of time to consider priority numbers</param>
+        /// <returns></returns>
+        public bool SetLaneActive(int queueLaneNumber,
+            QueueAttendant attendant,
+            TimeSpan tolerance)
+        {
+            //check if the lane queue is existing
+            if (laneQueues.TryGetValue(queueLaneNumber, out LaneQueue laneQueue))
+            {
+                //get the associated lane to the lane number
+                var lane = dataAccessLogic.GetLaneWithLaneNumber(
+                    queueLaneNumber
+                    );
+
+                laneQueue = new LaneQueue();
+                laneQueue.SetQueueLane(lane);
+                laneQueue.SetAttendant(attendant);
+                laneQueue.Tolerance = tolerance;
+
+                bool isSuccess = dataAccessLogic.AddLaneQueue(
+                    laneQueue
+                    );
+
+                laneQueue = dataAccessLogic.GetLaneQueueWithLaneID(
+                    lane.LaneID
+                    );
+
+                if (isSuccess &&
+                    laneQueue == null)
+                {
+                    //unexpected error
+                    throw new Exception("Failed to get lane queue of lane number: " + 
+                        queueLaneNumber);
+                }
+
+                if (isSuccess)
+                {
+                    //reflect changes in application
+                    laneQueues[queueLaneNumber] = laneQueue;
+                }
+
+                //conditions for failure:
+                //  lane queue already exists for this lane number
+                //  the attendant object given does not have an id set
+                return isSuccess;
+            }
+            else
+            {
+                //lane number unused
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Disallows queues in lane, and unassigns the attendant of the lane
+        /// </summary>
+        /// <param name="queueLaneNumber"></param>
+        /// <returns></returns>
+        public bool SetLaneInactive(int queueLaneNumber)
+        {
+            //check if the lane queue is existing
+            if (laneQueues.TryGetValue(queueLaneNumber, out LaneQueue laneQueue)
+                && laneQueue != null)
+            {
+                bool isSuccess = dataAccessLogic.DeleteLaneQueue(
+                    laneQueue.LaneQueueID
+                    );
+
+                if (isSuccess)
+                {
+                    //reflect changes in application
+                    laneQueues[queueLaneNumber] = null;
+                }
+
+                //conditions for failure:
+                //  lane queue id is not set
+                return isSuccess;
+            }
+            else
+            {
+                //lane number unused or lane is already inactive
                 return false;
             }
         }
