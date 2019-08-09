@@ -168,5 +168,26 @@ namespace QueueingSystem.BusinessLogic
                 throw new ArgumentException("Account parameter is not an account.", "account");
             }
         }
+
+        public bool IsGuestAccount(long accountNumber)
+        {
+            var account = dataAccessLogic.GetGuestWithAccountNumber(accountNumber);
+
+            return account != null;
+        }
+
+        public bool IsAdminAccount(long accountNumber)
+        {
+            var account = dataAccessLogic.GetAdminWithAccountNumber(accountNumber);
+
+            return account != null;
+        }
+
+        public bool IsQueueAttendantAccount(long accountNumber)
+        {
+            var account = dataAccessLogic.GetQueueAttendantWithAccountNumber(accountNumber);
+
+            return account != null;
+        }
     }
 }

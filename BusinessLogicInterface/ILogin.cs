@@ -26,5 +26,11 @@ namespace QueueingSystem.BusinessLogic
         bool RegisterAsQueueAttendant(QueueAttendant newQueueAttendant);
 
         bool ResetPassword(object account, string newPassword);
+
+        bool IsGuestAccount(long accountNumber);
+
+        bool IsAdminAccount(long accountNumber);
+
+        bool IsQueueAttendantAccount(long accountNumber);
     }
 }
