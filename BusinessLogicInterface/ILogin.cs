@@ -27,6 +27,8 @@ namespace QueueingSystem.BusinessLogic
 
         bool ResetPassword(object account, string newPassword);
 
+        bool IsUserAccount(long accountNumber);
+
         bool IsGuestAccount(long accountNumber);
 
         bool IsAdminAccount(long accountNumber);

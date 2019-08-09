@@ -189,5 +189,12 @@ namespace QueueingSystem.BusinessLogic
 
             return account != null;
         }
+
+        public bool IsUserAccount(long accountNumber)
+        {
+            var account = dataAccessLogic.GetUserWithAccountNumber(accountNumber);
+
+            return account != null;
+        }
     }
 }
