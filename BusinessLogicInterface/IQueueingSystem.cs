@@ -60,5 +60,7 @@ namespace QueueingSystem.BusinessLogic
         bool EditQueueLane(Lane editedQueueLane);
 
         bool DeleteQueueLane(int queueLaneNumber);
+
+        List<QueueStatus> GetQueueStatuses();
     }
 }

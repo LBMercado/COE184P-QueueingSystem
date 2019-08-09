@@ -905,5 +905,10 @@ namespace QueueingSystem.BusinessLogic
                 return false;
             }
         }
+
+        public List<QueueStatus> GetQueueStatuses()
+        {
+            return new List<QueueStatus>(queueStatusMapper.Keys);
+        }
     }
 }
