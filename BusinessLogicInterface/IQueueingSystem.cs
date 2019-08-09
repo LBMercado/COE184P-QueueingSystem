@@ -49,7 +49,7 @@ namespace QueueingSystem.BusinessLogic
 
         object GetLastQueuedInLane(int queueLaneNumber);
 
-        bool EnqueueLane(int queueLaneNumber, QueueTicket newQueueTicket);
+        bool EnqueueLane(QueueTicket newQueueTicket);
 
         QueueTicket DequeueLane(int queueLaneNumber);
 

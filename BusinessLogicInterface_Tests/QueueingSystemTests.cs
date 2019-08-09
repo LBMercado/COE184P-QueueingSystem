@@ -325,7 +325,6 @@ namespace BusinessLogicInterface_Tests
 
             Assert.IsTrue(
                 queueSystem.EnqueueLane(
-                    qt.QueueLane.LaneNumber,
                     qt
                     )
                 );
@@ -338,7 +337,6 @@ namespace BusinessLogicInterface_Tests
 
             Assert.IsTrue(
                 queueSystem.EnqueueLane(
-                    qt2.QueueLane.LaneNumber,
                     qt2
                     )
                 );
@@ -471,7 +469,6 @@ namespace BusinessLogicInterface_Tests
 
             Assert.IsTrue(
                 queueSystem.EnqueueLane(
-                    qt.QueueLane.LaneNumber,
                     qt
                     )
                 );
@@ -484,7 +481,6 @@ namespace BusinessLogicInterface_Tests
 
             Assert.IsTrue(
                 queueSystem.EnqueueLane(
-                    qt2.QueueLane.LaneNumber,
                     qt2
                     )
                 );

@@ -477,14 +477,14 @@ namespace QueueingSystem.BusinessLogic
         }
 
         /// <summary>
-        /// Enqueue a new ticket to the specified lane given lane number
+        /// Enqueue a new ticket to the queue system
         /// </summary>
         /// <param name="queueLaneNumber"></param>
         /// <param name="newQueueTicket"></param>
         /// <returns></returns>
-        public bool EnqueueLane(int queueLaneNumber, QueueTicket newQueueTicket)
+        public bool EnqueueLane(QueueTicket newQueueTicket)
         {
-            if (laneQueues.TryGetValue(queueLaneNumber, out LaneQueue laneQueue))
+            if (laneQueues.TryGetValue(newQueueTicket.QueueLane.LaneNumber, out LaneQueue laneQueue))
             {
                 if (laneQueue == null)
                 {
@@ -881,6 +881,27 @@ namespace QueueingSystem.BusinessLogic
             else
             {
                 //queue lane number is unused
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Checks whether the specified lane has a lane queue assigned to it
+        /// Doesn't distinguish between unused lane numbers and inactive lanes
+        /// </summary>
+        /// <returns></returns>
+        public bool IsLaneActive(int queueLaneNumber)
+        {
+            //check if the lane queue is existing
+            if (laneQueues.TryGetValue(queueLaneNumber, out LaneQueue laneQueue)
+                && laneQueue != null)
+            {
+                //lane number has a lane queue, it is active
+                return true;
+            }
+            else
+            {
+                //lane number unused or lane is inactive
                 return false;
             }
         }
