@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Runtime.Serialization;
 
 namespace QueueingSystem.Models
 {
+    [DataContract]
     public abstract class Account
     {
         public Account() { }
@@ -27,18 +29,25 @@ namespace QueueingSystem.Models
             LastName = lastName;
         }
 
+        [DataMember]
         public long AccountNumber { get; set; }
 
+        [DataMember]
         protected string Email { get; set; }
 
+        [DataMember]
         protected string Password { get; set; }
 
+        [DataMember]
         protected string ContactNumber { get; set; }
 
+        [DataMember]
         protected string FirstName { get; set; }
 
+        [DataMember]
         protected string MiddleName { get; set; }
 
+        [DataMember]
         protected string LastName { get; set; }
 
         public abstract void SetFullName(string firstName, string middleName, string lastName);

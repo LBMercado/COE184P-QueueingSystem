@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using System.Runtime.Serialization;
 namespace QueueingSystem.Models
 {
+    [DataContract]
+    [KnownType(typeof(Account))]
     public class QueueAttendant : Account
     {
         public QueueAttendant() { }
@@ -29,7 +31,9 @@ namespace QueueingSystem.Models
                 DesignatedLane = new Lane(queueAttendant.DesignatedLane);
             }
         }
+        [DataMember]
         public string QueueAttendantID { get; set; }
+        [DataMember]
         public Lane DesignatedLane { get; set; }
         public override void SetFullName(string firstName, string middleName, string lastName)
         {

@@ -1,25 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Runtime.Serialization;
 
 namespace QueueingSystem.Models
 {
-    public enum QueueStatus{ ONGOING, WAITING, FINISHED}
+    [DataContract]
+    public enum QueueStatus
+    { 
+        [EnumMember]ONGOING, 
+        [EnumMember]WAITING,
+        [EnumMember]FINISHED
+    }
 
+    [DataContract]
     public class QueueTicket
     {
+        [DataMember]
         public string QueueID { get; set; }
 
+        [DataMember]
         public int QueueNumber { get; set; }
 
+        [DataMember]
         public Lane QueueLane { get; set; }
 
+        [DataMember]
         public short PriorityNumber { get; set; }
 
+        [DataMember]
         public object owner;
 
+        [DataMember]
         public DateTime QueueDateTime { get; set; }
 
+        [DataMember]
         public QueueStatus Status { get; set; }
 
         public QueueTicket()

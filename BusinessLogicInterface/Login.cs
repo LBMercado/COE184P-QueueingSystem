@@ -23,6 +23,13 @@ namespace QueueingSystem.BusinessLogic
 
             dataAccessLogic = new DataAccess.DataAccess(this.connectionString);
         }
+
+        /// <summary>
+        /// Check if an account with the given email and password is existing
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public bool IsCorrectLogin(string email, string password)
         {
             var hashedPassword = Hasher.HashSHA512(password).Digest;

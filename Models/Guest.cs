@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Runtime.Serialization;
 
 namespace QueueingSystem.Models
 {
+    [DataContract]
+    [KnownType(typeof(Account))]
     public class Guest : Account
     {
+        [DataMember]
         public int GuestNumber { get; private set; }
 
         public Guest()

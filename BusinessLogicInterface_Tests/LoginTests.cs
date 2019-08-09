@@ -69,5 +69,53 @@ namespace BusinessLogicInterface_Tests
                     testUser1.GetPassword())
                 );
         }
+
+        [TestMethod]
+        public void LoginAsUser_Verification_Test()
+        {
+            var testUser1 = new User();
+
+            testUser1.SetFullName("A", "AA", "AAA");
+            testUser1.SetEmail("A@email.com");
+            testUser1.SetContactNumber("12345678901");
+            testUser1.SetPassword("AAA");
+
+            Assert.IsTrue(
+                login.RegisterAsUser(testUser1)
+                );
+
+            //make sure that the original object has not been modified
+            Assert.AreEqual("AAA",
+                testUser1.GetPassword());
+
+            //verify if correct login
+            //wrong password
+            Assert.IsFalse(
+                login.IsCorrectLogin(
+                    testUser1.GetEmail(),
+                    testUser1.GetPassword() + 'A'
+                    )
+                );
+            //wrong email
+            Assert.IsFalse(
+               login.IsCorrectLogin(
+                   testUser1.GetEmail() + 'A',
+                   testUser1.GetPassword()
+                   )
+               );
+
+            //correct
+           Assert.IsTrue(
+                login.IsCorrectLogin(
+                    testUser1.GetEmail(),
+                    testUser1.GetPassword()
+                    )
+                );
+
+            Assert.IsNotNull(
+                login.LoginAsUser(testUser1.GetEmail(),
+                    testUser1.GetPassword())
+                );
+        }
     }
 }

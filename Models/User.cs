@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Runtime.Serialization;
 
 namespace QueueingSystem.Models
 {
+    [DataContract]
+    [KnownType(typeof(Account))]
     public class User : Account
     {
         public User() { }
@@ -22,6 +25,7 @@ namespace QueueingSystem.Models
             UserID = user.UserID;
         }
 
+        [DataMember]
         public string UserID { get; set; }
 
         public override void SetFullName(string firstName, string middleName, string lastName)
