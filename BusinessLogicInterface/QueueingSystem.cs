@@ -615,7 +615,7 @@ namespace QueueingSystem.BusinessLogic
             //  check first if it exists
             //  make sure it is not already finished
             if (queueTicket != null &&
-                queueTicket.Status == QueueStatus.FINISHED)
+                queueTicket.Status != QueueStatus.FINISHED)
             {                   
                 //mark the queue ticket as finished
                 queueTicket.Status = QueueStatus.FINISHED;

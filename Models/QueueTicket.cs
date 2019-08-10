@@ -28,7 +28,7 @@ namespace QueueingSystem.Models
         [DataMember]
         public short PriorityNumber { get; set; }
 
-        [DataMember]
+        [IgnoreDataMember]
         public object owner;
 
         [DataMember]
