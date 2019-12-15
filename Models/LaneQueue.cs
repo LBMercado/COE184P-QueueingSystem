@@ -8,7 +8,7 @@ namespace QueueingSystem.Models
     public class LaneQueue
     {
         private const int LANE_DEFAULT_CAPACITY = 10;
-        private readonly TimeSpan LANE_DEFAULT_TOLERANCE;
+        private readonly TimeSpan LANE_DEFAULT_TOLERANCE = TimeSpan.FromHours(23.99);
 
         public int LaneQueueID { get; set; }
         public List<QueueTicket> QueueList { get; private set; }

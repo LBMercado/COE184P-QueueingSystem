@@ -1388,6 +1388,9 @@ namespace QueueingSystem.DataAccess
                             retLaneQueue.SetQueueCapacity(
                                 reader.GetInt32(reader.GetOrdinal("Capacity"))
                                 );
+
+                            //update attendant lane
+                            retLaneQueue.SetQueueLane(retLaneQueue.QueueLane);
                         }
                     }
                 }
@@ -1453,6 +1456,9 @@ namespace QueueingSystem.DataAccess
                             retLaneQueue.SetQueueCapacity(
                                 reader.GetInt32(reader.GetOrdinal("Capacity"))
                                 );
+
+                            //update attendant lane
+                            retLaneQueue.SetQueueLane(retLaneQueue.QueueLane);
                         }
                     }
                 }
@@ -1760,7 +1766,7 @@ namespace QueueingSystem.DataAccess
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = procName;
 
-                cmd.Parameters.Add("Email", SqlDbType.NChar, 12).Value = queueAttendantID;
+                cmd.Parameters.Add("QueueAttendantID", SqlDbType.NChar, 12).Value = queueAttendantID;
 
                 //start of query
                 try

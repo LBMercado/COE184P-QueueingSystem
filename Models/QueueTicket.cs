@@ -105,9 +105,9 @@ namespace QueueingSystem.Models
         /// <param name="queueDateTime"></param>
         /// <param name="tolerance"></param>
         /// <returns></returns>
-        public bool HasHigherPriority(short priorityNumber, DateTime queueDateTime, TimeSpan tolerance = default)
+        public bool HasHigherPriority(short priorityNumber, DateTime queueDateTime, TimeSpan? tolerance)
         {
-            if (tolerance == default)
+            if (tolerance == null || tolerance.GetValueOrDefault() == TimeSpan.Zero)
             {
                 //default tolerance of a day
                 tolerance = TimeSpan.FromHours(24);
