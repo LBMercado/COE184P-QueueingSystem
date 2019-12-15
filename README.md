@@ -1,2 +1,4 @@
 # COE184P-QueueingSystem
-Description: Real-time Queuing System using Apache Cordova and Windows Communications Foundation (WCF). School Project for Microsoft .Net 4
+Description: 
+Business Logic for Queuing System. School Project for Microsoft .Net 4 Specialization.
+This will be implemented in COE184P-QueueingSystem-Cordova.
