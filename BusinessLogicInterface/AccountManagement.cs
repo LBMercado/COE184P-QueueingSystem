@@ -72,6 +72,11 @@ namespace QueueingSystem.BusinessLogic
             return dal.GetQueueTicketsOf(guest.AccountNumber);
         }
 
+        public List<QueueAttendant> GetQueueAttendants()
+        {
+            return dal.GetQueueAttendants();
+        }
+
         public QueueAttendant GetQueueAttendant(long accountNumber)
         {
             return dal.GetQueueAttendantWithAccountNumber(accountNumber);

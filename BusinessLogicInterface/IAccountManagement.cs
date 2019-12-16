@@ -23,6 +23,8 @@ namespace QueueingSystem.BusinessLogic
 
         Admin GetAdminAccount(string email, string password);
 
+        List<QueueAttendant> GetQueueAttendants();
+
         QueueAttendant GetQueueAttendant(long accountNumber);
 
         QueueAttendant GetQueueAttendant(string attendantID);

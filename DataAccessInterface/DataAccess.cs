@@ -418,6 +418,78 @@ namespace QueueingSystem.DataAccess
             return isSuccess;
         }
 
+        public List<QueueAttendant> GetQueueAttendants()
+       {
+            if (connection.State == ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            string procName = "GetQueueAttendants";
+            List<QueueAttendant> retQueueAttendantList = new List<QueueAttendant>();
+
+            using (SqlCommand cmd = connection.CreateCommand())
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = procName;
+
+                //start of query
+                try
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var retQueueAttendant = new QueueAttendant();
+
+                            retQueueAttendant.AccountNumber = reader.GetInt64(reader.GetOrdinal("AccountNumber"));
+                            retQueueAttendant.SetFullName(
+                                reader["FirstName"].ToString(),
+                                SafeGetString(reader, reader.GetOrdinal("MiddleName")),
+                                reader["LastName"].ToString()
+                                );
+                            retQueueAttendant.SetEmail(
+                                reader["Email"].ToString()
+                                );
+                            retQueueAttendant.SetPassword(
+                                reader["Password"].ToString()
+                                );
+                            retQueueAttendant.SetContactNumber(
+                                SafeGetString(reader, reader.GetOrdinal("ContactNumber"))
+                                );
+                            retQueueAttendant.QueueAttendantID = reader["QueueAttendantID"].ToString();
+
+                            retQueueAttendant.DesignatedLane.LaneID = SafeGetInt32(reader, reader.GetOrdinal("LaneID"));
+
+                            //lane can be left to null, must check for it
+                            if (retQueueAttendant.DesignatedLane.LaneID != -1)
+                            {
+                                //lane is set
+                                retQueueAttendant.DesignatedLane.LaneNumber = reader.GetInt32(reader.GetOrdinal("LaneNumber"));
+                                retQueueAttendant.DesignatedLane.LaneName = reader["LaneName"].ToString();
+                                retQueueAttendant.DesignatedLane.Capacity = reader.GetInt32(reader.GetOrdinal("Capacity"));
+                            }
+                            else
+                            {
+                                //lane is unset, leave to default values
+                                retQueueAttendant.DesignatedLane = new Lane();
+                            }
+
+                            retQueueAttendantList.Add(retQueueAttendant);
+                        }
+                    }
+                }
+                catch (SqlException exc)
+                {
+                    Console.WriteLine("SQL Exception encountered: " + exc.Message);
+                }
+                //end of query
+                connection.Close();
+            }
+
+            return retQueueAttendantList;
+       }
+
         public Dictionary<QueueStatus, int> GetQueueStatuses()
         {
             if (connection.State == ConnectionState.Closed)
