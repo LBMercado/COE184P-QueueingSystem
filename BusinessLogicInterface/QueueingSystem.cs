@@ -364,6 +364,7 @@ namespace QueueingSystem.BusinessLogic
                 }
                 else
                 {
+                    //take note that the old attendant will be displaced
                     laneQueue.SetAttendant(queueAttendant);
 
                     dataAccessLogic.EditDesignatedLaneOfQueueAttendant(queueAttendant.QueueAttendantID,
@@ -725,7 +726,7 @@ namespace QueueingSystem.BusinessLogic
         }
 
         /// <summary>
-        /// Allows queues to be formed at the specified lane, there must be an attendant available
+        /// Allows queues to be formed at the specified lane, the attendant to be assigned must have no designated lane
         /// </summary>
         /// <param name="queueLaneNumber"></param>
         /// <param name="attendant"></param>
@@ -738,6 +739,11 @@ namespace QueueingSystem.BusinessLogic
             //check if the lane queue is existing
             if (laneQueues.TryGetValue(queueLaneNumber, out LaneQueue laneQueue))
             {
+                //allow only attendants that do not have a designated lane
+                if (attendant.DesignatedLane.LaneNumber != 0 ||
+                    attendant.DesignatedLane.LaneName != null)
+                    return false;
+
                 //get the associated lane to the lane number
                 var lane = dataAccessLogic.GetLaneWithLaneNumber(
                     queueLaneNumber

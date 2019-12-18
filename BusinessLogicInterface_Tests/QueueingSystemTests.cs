@@ -89,17 +89,14 @@ namespace BusinessLogicInterface_Tests
             //QUEUEATTENDANT INSTANCE END
 
             //LANE QUEUE INSTANCE START
-            LaneQueue lq = new LaneQueue();
-            lq.SetQueueLane(newLane);
-            lq.SetAttendant(testUser1);
             //consider max. 12 hours for priority numbers
-            lq.Tolerance = TimeSpan.FromHours(12);
+            var tolerance = TimeSpan.FromHours(12);
 
             Assert.IsTrue(
                 queueSystem.SetLaneActive(
-                lq.QueueLane.LaneNumber,
-                lq.Attendant,
-                lq.Tolerance
+                newLane.LaneNumber,
+                testUser1,
+                tolerance
                 )
                 );
 
@@ -193,17 +190,14 @@ namespace BusinessLogicInterface_Tests
 
             for (int i = 0; i < 3; i++)
             {
-                LaneQueue lq = new LaneQueue();
-                lq.SetQueueLane(laneList[i]);
-                lq.SetAttendant(testUserList[i]);
                 //consider max. 12 hours for priority numbers
-                lq.Tolerance = TimeSpan.FromHours(12);
+                var tolerance = TimeSpan.FromHours(12);
 
                 Assert.IsTrue(
                     queueSystem.SetLaneActive(
-                    lq.QueueLane.LaneNumber,
-                    lq.Attendant,
-                    lq.Tolerance
+                    laneList[i].LaneNumber,
+                    testUserList[i],
+                    tolerance
                     )
                     );
             }
@@ -257,17 +251,14 @@ namespace BusinessLogicInterface_Tests
             //QUEUEATTENDANT INSTANCE END
 
             //LANE QUEUE INSTANCE START
-            LaneQueue lq = new LaneQueue();
-            lq.SetQueueLane(newLane);
-            lq.SetAttendant(testUser1);
             //consider max. 12 hours for priority numbers
-            lq.Tolerance = TimeSpan.FromHours(12);
+            var tolerance = TimeSpan.FromHours(12);
 
             Assert.IsTrue(
                 queueSystem.SetLaneActive(
-                lq.QueueLane.LaneNumber,
-                lq.Attendant,
-                lq.Tolerance
+                newLane.LaneNumber,
+                testUser1,
+                tolerance
                 )
                 );
 
@@ -399,17 +390,14 @@ namespace BusinessLogicInterface_Tests
             //QUEUEATTENDANT INSTANCE END
 
             //LANE QUEUE INSTANCE START
-            LaneQueue lq = new LaneQueue();
-            lq.SetQueueLane(newLane);
-            lq.SetAttendant(testUser1);
             //consider max. 12 hours for priority numbers
-            lq.Tolerance = TimeSpan.FromHours(12);
+            var tolerance = TimeSpan.FromHours(12);
 
             Assert.IsTrue(
                 queueSystem.SetLaneActive(
-                lq.QueueLane.LaneNumber,
-                lq.Attendant,
-                lq.Tolerance
+                newLane.LaneNumber,
+                testUser1,
+                tolerance
                 )
                 );
 
