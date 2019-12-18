@@ -364,6 +364,11 @@ namespace QueueingSystem.BusinessLogic
                 }
                 else
                 {
+                    //allow only attendants that do not have a designated lane
+                    if (queueAttendant.DesignatedLane.LaneNumber != 0 ||
+                        queueAttendant.DesignatedLane.LaneName != null)
+                        return false;
+
                     //take note that the old attendant will be displaced
                     laneQueue.SetAttendant(queueAttendant);
 
