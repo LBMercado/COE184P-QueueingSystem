@@ -47,6 +47,8 @@ namespace QueueingSystem.BusinessLogic
 
         List<object> GetListOfQueuedInLane(int queueLaneNumber);
 
+        List<int> GetListOfQueueNumbersInLane(int queueLaneNumber);
+
         object GetLastQueuedInLane(int queueLaneNumber);
 
         bool EnqueueLane(QueueTicket newQueueTicket);

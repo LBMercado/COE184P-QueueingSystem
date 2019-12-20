@@ -921,5 +921,20 @@ namespace QueueingSystem.BusinessLogic
         {
             return new List<QueueStatus>(queueStatusMapper.Keys);
         }
+
+        public List<int> GetListOfQueueNumbersInLane(int queueLaneNumber)
+        {
+            var tickList = new List<int>();
+            if (laneQueues.TryGetValue(queueLaneNumber, out LaneQueue laneQueue) 
+                && laneQueue != null && laneQueue.QueueList.Count != 0)
+            {
+                //lane must be active and not empty
+                foreach (var queueTicket in laneQueue.QueueList)
+                {
+                    tickList.Add(queueTicket.QueueNumber);
+                }
+            }
+            return tickList;
+        }
     }
 }
