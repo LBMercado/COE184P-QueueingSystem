@@ -833,7 +833,6 @@ namespace QueueingSystem.DataAccess
                     cmd.Parameters.Add("Password", SqlDbType.VarChar, 128).Value = queueAttendantAccount.GetPassword();
 
                     //handle null contact numbers
-                    cmd.Parameters.Add("ContactNumber", SqlDbType.NChar, 11).Value = queueAttendantAccount.GetContactNumber();
                     if (queueAttendantAccount.GetContactNumber() == null)
                         cmd.Parameters.Add("ContactNumber", SqlDbType.NChar, 11).Value = DBNull.Value;
                     else
