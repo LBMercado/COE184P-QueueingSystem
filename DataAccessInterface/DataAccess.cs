@@ -778,16 +778,24 @@ namespace QueueingSystem.DataAccess
 
                     cmd.Parameters.Add("AccountNumber", SqlDbType.BigInt).Value = adminAccount.AccountNumber;
                     cmd.Parameters.Add("FirstName", SqlDbType.VarChar, 50).Value = adminAccount.GetFirstName();
-                    cmd.Parameters.Add("MiddleName", SqlDbType.VarChar, 50).Value = adminAccount.GetMiddleName();
+                    //handle null middle names
+                    if (adminAccount.GetMiddleName() == null)
+                        cmd.Parameters.Add("MiddleName", SqlDbType.VarChar, 50).Value = DBNull.Value;
+                    else
+                        cmd.Parameters.Add("MiddleName", SqlDbType.VarChar, 50).Value = adminAccount.GetMiddleName();
                     cmd.Parameters.Add("LastName", SqlDbType.VarChar, 50).Value = adminAccount.GetLastName();
                     cmd.Parameters.Add("Email", SqlDbType.VarChar, 50).Value = adminAccount.GetEmail();
                     cmd.Parameters.Add("Password", SqlDbType.VarChar, 128).Value = adminAccount.GetPassword();
-                    cmd.Parameters.Add("ContactNumber", SqlDbType.NChar, 11).Value = adminAccount.GetContactNumber();
+                    //handle null contact numbers
+                    if (adminAccount.GetContactNumber() == null)
+                        cmd.Parameters.Add("ContactNumber", SqlDbType.NChar, 11).Value = DBNull.Value;
+                    else
+                        cmd.Parameters.Add("ContactNumber", SqlDbType.NChar, 11).Value = adminAccount.GetContactNumber();
 
                     //start of query
                     try
                     {
-                        isSuccess = cmd.ExecuteNonQuery() > 1;
+                        isSuccess = cmd.ExecuteNonQuery() > 0;
                     }
                     catch (SqlException exc)
                     {
@@ -813,18 +821,30 @@ namespace QueueingSystem.DataAccess
 
                     cmd.Parameters.Add("AccountNumber", SqlDbType.BigInt).Value = queueAttendantAccount.AccountNumber;
                     cmd.Parameters.Add("FirstName", SqlDbType.VarChar, 50).Value = queueAttendantAccount.GetFirstName();
-                    cmd.Parameters.Add("MiddleName", SqlDbType.VarChar, 50).Value = queueAttendantAccount.GetMiddleName();
+
+                    //handle null middle names
+                    if (queueAttendantAccount.GetMiddleName() == null)
+                        cmd.Parameters.Add("MiddleName", SqlDbType.VarChar, 50).Value = DBNull.Value;
+                    else
+                        cmd.Parameters.Add("MiddleName", SqlDbType.VarChar, 50).Value = queueAttendantAccount.GetMiddleName();
+
                     cmd.Parameters.Add("LastName", SqlDbType.VarChar, 50).Value = queueAttendantAccount.GetLastName();
                     cmd.Parameters.Add("Email", SqlDbType.VarChar, 50).Value = queueAttendantAccount.GetEmail();
                     cmd.Parameters.Add("Password", SqlDbType.VarChar, 128).Value = queueAttendantAccount.GetPassword();
+
+                    //handle null contact numbers
                     cmd.Parameters.Add("ContactNumber", SqlDbType.NChar, 11).Value = queueAttendantAccount.GetContactNumber();
+                    if (queueAttendantAccount.GetContactNumber() == null)
+                        cmd.Parameters.Add("ContactNumber", SqlDbType.NChar, 11).Value = DBNull.Value;
+                    else
+                        cmd.Parameters.Add("ContactNumber", SqlDbType.NChar, 11).Value = queueAttendantAccount.GetContactNumber();
 
                     //lane id is not edited here, expected parameter edits account attributes only, not exclusive specific attributes
 
                     //start of query
                     try
                     {
-                        isSuccess = cmd.ExecuteNonQuery() > 1;
+                        isSuccess = cmd.ExecuteNonQuery() > 0;
                     }
                     catch (SqlException exc)
                     {
